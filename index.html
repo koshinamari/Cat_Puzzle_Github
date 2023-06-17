@@ -33,21 +33,32 @@
 
 </head>
 
+<style>
+    body {
+        background-image: url('rere.png');
+        background-repeat: no-repeat !important;
+        background-size: cover !important;
+        background-position: center !important;
+    }
+</style>
+
 <body class="dark">
   <div id="unity-container" class="unity-desktop">
     <canvas id="unity-canvas"></canvas>
   </div>
   <div id="loading-cover" style="display:none;">
-    <div id="unity-loading-bar">
-      <div id="unity-logo"><img src="logo.png"></div>
+    <div id="unity-loading-bar">      
+      <div id="unity-logo"><img src="logo_en.png"></div>
       <div id="unity-progress-bar-empty" style="display: none;">
         <div id="unity-progress-bar-full"></div>
+    <div id="unity-label"></div>    
       </div>
       <div class="spinner"></div>
     </div>
   </div>
 
   <script>
+    
     const buildUrl = "Build";
     const loaderUrl = buildUrl + "/Web_Build.loader.js";
     const config = {
@@ -65,11 +76,13 @@
     const loadingCover = document.querySelector("#loading-cover");
     const progressBarEmpty = document.querySelector("#unity-progress-bar-empty");
     const progressBarFull = document.querySelector("#unity-progress-bar-full");
-    const spinner = document.querySelector('.spinner');
+    const fillText = document.querySelector("#unity-label");
+    const spinner = document.querySelector('.spinner');   
+
+    
 
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
       container.className = "unity-mobile";
-      config.devicePixelRatio = 1;
     }
 
     loadingCover.style.display = "";
@@ -82,6 +95,7 @@
         spinner.style.display = "none";
         progressBarEmpty.style.display = "";
         progressBarFull.style.width = `${100 * progress}%`;
+        fillText.textContent = (progress * 100).toFixed() + "%";
       }).then((unityInstance) => {
         _unityAwaiter.done(unityInstance);
         unityI = unityInstance;
